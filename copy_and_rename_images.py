@@ -3,6 +3,7 @@ from tqdm import tqdm
 from glob import glob
 import json
 import os
+from ultralytics import YOLO
 
 def adapt_label_by_dataset(label_path, classes_dict, dataset):
     labels = []
@@ -30,7 +31,7 @@ def load_model(model_path):
     :return: Modelo de inferência
     :rtype: YoloV8
     """
-    pass
+    return YOLO(model_path)
 
 def predict(model, image):
     """ Fazer a inferência
@@ -42,7 +43,7 @@ def predict(model, image):
     :return: Labels
     :rtype: List[List[int, float, float, float, float]]
     """
-    pass
+    return model(image)
 
 
 if __name__ == "__main__":
@@ -66,11 +67,10 @@ if __name__ == "__main__":
 
     current_image_index = 0
     for dataset_folder in MAIN_FOLDERS:
-        ## if dataset_folder == "roboflow":
-        ##  model vai ter que ler o modelo do Kaggle
-        ## elif dataset_folder == "kaggle":
-        ##  model vai ter que ler o modelo do Roboflow
-        ## model = load_model(model_path)
+        if dataset_folder == "roboflow":
+            model = load_model("./models/kaggle.pt")
+        else:
+            model = load_model("./models/roboflow.pt")
         for target_folder in tqdm(TARGET_FOLDERS):
             FOLDER_PATH = os.path.join(dataset_folder, target_folder)
             IMAGES_PATH = os.path.join(FOLDER_PATH, "images")
@@ -95,6 +95,22 @@ if __name__ == "__main__":
                 ## Quando estiver no dataset do Roboflow, executar o modelo do Kaggle
                 ## Inferência do modelo
                 ## Adiciona as labels ao adapted_labels
+                predictions = predict(model, image_path)
+                for prediction in predictions:
+                    boxes = prediction.boxes.xyxy
+                    confidences = prediction.boxes.conf
+                    classes = prediction.boxes.cls
+                    for box, conf, cls in zip(boxes, confidences, classes):
+                        x1, y1, x2, y2 = box.tolist()
+                        confidence = conf.item()
+                        class_id = cls.item()
+                        class_name = prediction.names[class_id]
+                        if class_name not in classes_dict["final"]:
+                            continue    
+                        c = classes_dict["final"][class_name]
+                        w = x2 - x1
+                        h = y2 - y1
+                        adapted_labels += f"\n{c} {x1} {y1} {w} {h}"
 
                 dest_image_path = os.path.join(DEST_PATH, "images", f"{current_image_index:07d}.jpg")
                 dest_label_path = os.path.join(DEST_PATH, "labels", f"{current_image_index:07d}.txt")

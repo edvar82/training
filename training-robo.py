@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 
-model = YOLO('yolov8n.pt')  
+model = YOLO('yolov8l.pt')  
 
 model.train(data='./datasets/roboflow-data/data.yaml', epochs=30) 
 
-model.save('roboflow.pt')  # save final model to roboflow.pt
+model.save('roboflow.pt') 
