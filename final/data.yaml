@@ -1,0 +1,29 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 14
+names:
+  [
+    'luva',
+    'oculos',
+    'capacete',
+    'sem_luva',
+    'sem_oculos',
+    'sem_capacete',
+    'sem_sapatos',
+    'sapatos',
+    'mascara',
+    'sem mascara',
+    'sem_colete de seguranca',
+    'pessoa',
+    'cone de seguranca',
+    'colete de seguranca',
+  ]
+
+roboflow:
+  workspace: trialforobjectdetection
+  project: ppe-v1.1
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/trialforobjectdetection/ppe-v1.1/dataset/1
