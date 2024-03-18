@@ -1,0 +1,23 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 8
+names:
+  [
+    "glove",
+    "goggles",
+    "helmet",
+    "no_glove",
+    "no_goggles",
+    "no_helmet",
+    "no_shoes",
+    "shoes"
+  ]
+
+roboflow:
+  workspace: trialforobjectdetection
+  project: ppe-v1.1
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/trialforobjectdetection/ppe-v1.1/dataset/1

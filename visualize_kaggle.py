@@ -22,7 +22,7 @@ def random_color(class_id):
     return (choice(range(256)), choice(range(256)), choice(range(256)))
 
 if __name__ == "__main__":
-    FOLDER_PATH = os.path.join("kaggle", "train")
+    FOLDER_PATH = os.path.join("final", "train")
     IMAGES_PATH = os.path.join(FOLDER_PATH, "images")
     LABELS_PATH = os.path.join(FOLDER_PATH, "labels")
 
@@ -33,12 +33,19 @@ if __name__ == "__main__":
 
         image, label = read_image_and_label(image_path, label_path)
 
+
         img_h, img_w, _ = image.shape
 
         for c, xc, yc, w, h in label:
             color = random_color(c)
-            pt1 = (int((xc - w/2) * img_w), int((yc - h/2) * img_h))
-            pt2 = (int((xc + w/2) * img_w), int((yc + h/2) * img_h))
+            if xc < 1 or yc < 1 or w < 1 or h < 1:
+                pt1 = (int((xc - w/2) * img_w), int((yc - h/2) * img_h))
+                pt2 = (int((xc + w/2) * img_w), int((yc + h/2) * img_h))
+            else:
+                pt1 = (int(xc), int(yc))
+                pt2 = (int(w), int(h))
+
+            print(pt1, pt2)
 
             cv2.rectangle(image, pt1, pt2, color, 2)
 

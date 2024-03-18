@@ -4,6 +4,7 @@ from glob import glob
 import json
 import os
 from ultralytics import YOLO
+import cv2
 
 def adapt_label_by_dataset(label_path, classes_dict, dataset):
     labels = []
@@ -100,6 +101,9 @@ if __name__ == "__main__":
                     boxes = prediction.boxes.xyxy
                     confidences = prediction.boxes.conf
                     classes = prediction.boxes.cls
+                    image = cv2.imread(image_path)
+                    image_height, image_width, _ = image.shape
+
                     for box, conf, cls in zip(boxes, confidences, classes):
                         x1, y1, x2, y2 = box.tolist()
                         confidence = conf.item()
