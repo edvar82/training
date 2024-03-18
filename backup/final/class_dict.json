@@ -1,0 +1,18 @@
+{    
+    "glove": 0,
+    "goggles": 1,
+    "helmet": 2,
+    "no_glove": 3,
+    "no_goggles": 4,
+    "no_helmet": 5,
+    "no_shoes": 6,
+    "shoes": 7,
+    "Hardhat": 2,
+    "Mask": 8,
+    "NO-Hardhat": 5,
+    "NO-Mask": 9,
+    "NO-Safety Vest": 10,
+    "Person": 11,
+    "Safety Cone": 12,
+    "Safety Vest": 13
+}
